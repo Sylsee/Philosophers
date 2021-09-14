@@ -6,7 +6,7 @@
 #    By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/13 01:56:04 by spoliart          #+#    #+#              #
-#    Updated: 2021/09/13 02:41:02 by spoliart         ###   ########.fr        #
+#    Updated: 2021/09/14 11:36:37 by spoliart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ I= includes/
 NAME= philo
 
 SRCS= main.c \
+	  error.c \
 	  philo.c
 
 OBJS= $(SRCS:%.c=$O%.o)

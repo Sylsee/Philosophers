@@ -1,22 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/13 02:48:23 by spoliart          #+#    #+#             */
-/*   Updated: 2021/09/13 02:51:15 by spoliart         ###   ########.fr       */
+/*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
+/*   Updated: 2021/09/14 11:38:09 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#ifndef PHILO_H
+# define PHILO_H
 
-void	parse(int	argc, char **argv, t_philo *philo)
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <pthread.h>
+
+typedef struct	s_philo
 {
-	philo->time_must_eat = ft_atoi(argv[--argc]);
-	philo->time_to_sleep = ft_atoi(argv[--argc]);
-	philo->time_to_eat = ft_atoi(argv[--argc]);
-	philo->time_to_die = ft_atoi(argv[--argc]);
-	philo->nb_philo = ft_atoi(argv[--argc]);
-}
+	int		nb_philo;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	int		time_must_eat;
+}				t_philo;
+
+void	philo();
+
+void	parse(int argc, char **argv, t_philo *philo);
+
+void	print_and_exit(char *s);
+
+#endif
