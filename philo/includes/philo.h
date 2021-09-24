@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2021/09/14 11:38:09 by spoliart         ###   ########.fr       */
+/*   Updated: 2021/09/24 23:30:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,30 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-typedef struct	s_philo
+typedef struct s_philo
 {
-	int		nb_philo;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		time_must_eat;
+	int				id;
+	pthread_t		*thread;
+	pthread_mutex_t	*f_left;
+	pthread_mutex_t	*f_right;
 }				t_philo;
 
-void	philo();
+typedef struct s_env
+{
+	int				nb_philo;
+	int				die;
+	int				eat;
+	int				sleep;
+	int				m_eat;
+	t_philo			*philo;
+	pthread_mutex_t	*print;
+}				t_env;
 
 void	parse(int argc, char **argv, t_philo *philo);
+int		check_arg(int argc, char **argv);
 
-void	print_and_exit(char *s);
+int		ft_atoi(const char *s);
+
+int		ft_exit(char *s, int ret);
 
 #endif

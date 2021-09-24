@@ -6,14 +6,14 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 11:35:44 by spoliart          #+#    #+#             */
-/*   Updated: 2021/09/14 11:36:25 by spoliart         ###   ########.fr       */
+/*   Updated: 2021/09/24 23:27:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_and_exit(char *s)
+int	ft_exit(char *s, int ret)
 {
-	printf("%s\n", s);
-	exit(1);
+	ft_putendl_fd(s, 2);
+	return (ret);
 }
