@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2021/09/24 23:30:00 by marvin           ###   ########.fr       */
+/*   Updated: 2021/09/29 22:08:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ typedef struct s_env
 	pthread_mutex_t	*print;
 }				t_env;
 
-void	parse(int argc, char **argv, t_philo *philo);
+int		parse(int argc, char **argv, t_env *env);
 int		check_arg(int argc, char **argv);
+
+int		create_threads(char **argv, t_env *env);
 
 int		ft_atoi(const char *s);
 
