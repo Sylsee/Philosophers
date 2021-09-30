@@ -6,7 +6,7 @@
 #    By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/13 01:56:04 by spoliart          #+#    #+#              #
-#    Updated: 2021/09/24 23:30:23 by marvin           ###   ########.fr        #
+#    Updated: 2021/09/30 03:29:40 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,10 @@ I= includes/
 NAME= philo
 
 SRCS= main.c \
+	  parse.c \
+	  initialize.c \
 	  threads.c \
-	  ft_atoi.c \
+	  utils.c \
 	  error.c
 
 
@@ -33,13 +35,14 @@ OBJS= $(SRCS:%.c=$O%.o)
 INC= -I$I
 
 CC= gcc
-CFLAGS= -Wall -Werror -Wextra
+CFLAGS += -Wall -Werror -Wextra
+LDFLAGS += -pthread
 
 all:	$(NAME)
 
 $(NAME):	$(OBJS)
 	@printf "\033[2K\r$(_GREEN) All $@ files compiled into '$O'. $(_END)✅\n"
-	$(CC) $(CFLAGS) $(INC) $^ -o $@
+	$(CC) $(CFLAGS) $(INC) $^ -o $@ $(LDFLAGS)
 	@printf "$(_GREEN) Binary '$(NAME)' created. $(_END)✅\n"
 
 $O:

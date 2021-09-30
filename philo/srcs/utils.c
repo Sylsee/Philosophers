@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spoliart <sylvio.poliart@gmail.com>        +#+  +:+       +#+        */
+/*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/12 22:18:41 by spoliart          #+#    #+#             */
-/*   Updated: 2021/06/24 19:27:23 by spoliart         ###   ########.fr       */
+/*   Created: 2021/09/30 03:22:02 by marvin            #+#    #+#             */
+/*   Updated: 2021/09/30 03:27:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "philo.h"
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+		write(fd, s++, 1);
+	write(fd, "\n", 1);
+}
 
 int	ft_atoi(const char *nptr)
 {

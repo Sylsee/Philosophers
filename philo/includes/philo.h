@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2021/09/29 22:08:15 by marvin           ###   ########.fr       */
+/*   Updated: 2021/09/30 03:54:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 typedef struct s_philo
 {
 	int				id;
-	pthread_t		*thread;
-	pthread_mutex_t	*f_left;
-	pthread_mutex_t	*f_right;
+	pthread_t		thread;
+	pthread_mutex_t	l_fork;
+	pthread_mutex_t	r_fork;
 }				t_philo;
 
 typedef struct s_env
@@ -36,15 +36,18 @@ typedef struct s_env
 	int				sleep;
 	int				m_eat;
 	t_philo			*philo;
-	pthread_mutex_t	*print;
+	pthread_mutex_t	print;
 }				t_env;
 
 int		parse(int argc, char **argv, t_env *env);
 int		check_arg(int argc, char **argv);
 
-int		create_threads(char **argv, t_env *env);
+int		initialize(t_env *env);
+
+int		create_threads(t_env *env);
 
 int		ft_atoi(const char *s);
+void	ft_putendl_fd(char *s, int fd);
 
 int		ft_exit(char *s, int ret);
 
