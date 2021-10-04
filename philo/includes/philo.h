@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2021/09/30 03:54:21 by marvin           ###   ########.fr       */
+/*   Updated: 2021/10/04 22:20:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	pthread_mutex_t	l_fork;
 	pthread_mutex_t	r_fork;
+	struct t_env	*env;
 }				t_philo;
 
 typedef struct s_env

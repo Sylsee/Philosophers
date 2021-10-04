@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:48:23 by spoliart          #+#    #+#             */
-/*   Updated: 2021/09/30 03:41:38 by marvin           ###   ########.fr       */
+/*   Updated: 2021/10/04 22:28:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,16 @@ int	parse(int argc, char **argv, t_env *env)
 		env->m_eat = -1;
 		if (argc == 6)
 			env->m_eat = ft_atoi(argv[5]);
-		if (env->nb_philo < 1 || env->die < 1 || env->eat < 1
-			|| env->sleep < 1 || (env->m_eat < 1 && argc == 6))
+		if (env->nb_philo < 1 || env->nb_philo > 1000
+			|| env->die < 1 || env->die > 999999
+			|| env->eat < 1 || env->eat > 999999
+			|| env->sleep < 1 || env->sleep > 999999
+			|| ((env->m_eat < 1 || env->m_eat > 999999) && argc == 6))
 			return (ft_exit("Error: Arguments must be positive and non-null",
 					0));
 		if (env->nb_philo > 2000)
-			return (ft_exit("Error : It can't have more than 2000 philosophers",
-					0));
+			return (ft_exit("Error : There cannot be more than 2000\
+philosophers", 0));
 		return (1);
 	}
 	return (ft_exit("Error : Arguments must be positive and non-null", 0));

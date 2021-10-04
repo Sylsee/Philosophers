@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 02:15:48 by marvin            #+#    #+#             */
-/*   Updated: 2021/09/30 03:49:41 by marvin           ###   ########.fr       */
+/*   Updated: 2021/10/04 22:21:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	initialize(t_env *env)
 			return (ft_exit("Error : Fail to init mutex", 0));
 		if (id != 0)
 			env->philo[id - 1].r_fork = env->philo[id].l_fork;
+		env->philo->env = env;
 		id++;
 	}
 	if (env->nb_philo > 1)
