@@ -6,7 +6,7 @@
 #    By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/13 01:56:04 by spoliart          #+#    #+#              #
-#    Updated: 2021/09/30 03:29:40 by marvin           ###   ########.fr        #
+#    Updated: 2021/10/05 01:31:06 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS= main.c \
 	  parse.c \
 	  initialize.c \
 	  threads.c \
+	  routine.c \
 	  utils.c \
 	  error.c
 

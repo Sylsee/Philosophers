@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:48:23 by spoliart          #+#    #+#             */
-/*   Updated: 2021/10/04 22:28:46 by marvin           ###   ########.fr       */
+/*   Updated: 2021/10/05 01:09:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	parse(int argc, char **argv, t_env *env)
 {
 	if (check_arg(argc, argv))
 	{
+		env->is_dead = 0;
 		env->nb_philo = ft_atoi(argv[1]);
 		env->die = ft_atoi(argv[2]);
 		env->eat = ft_atoi(argv[3]);
