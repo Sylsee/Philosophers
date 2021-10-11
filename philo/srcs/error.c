@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 11:35:44 by spoliart          #+#    #+#             */
-/*   Updated: 2021/09/24 23:27:23 by marvin           ###   ########.fr       */
+/*   Updated: 2021/10/11 02:32:39 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_exit(char *s, int ret)
 {
-	ft_putendl_fd(s, 2);
+	ft_putstr_fd(s, 2);
+	ft_putstr_fd("\n", 2);
 	return (ret);
 }

@@ -6,42 +6,46 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 03:22:02 by marvin            #+#    #+#             */
-/*   Updated: 2021/10/05 01:30:48 by marvin           ###   ########.fr       */
+/*   Updated: 2021/10/11 07:45:37 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void	ft_putstr_fd(char *s, int fd)
 {
+	int	ret;
+
 	if (!s)
 		return ;
 	while (*s)
-		write(fd, s++, 1);
-	write(fd, "\n", 1);
+		ret = write(fd, s++, 1);
+	(void)ret;
 }
 
 void	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
+	int	ret;
+	ret = write(fd, &c, 1);
+	(void)ret;
 }
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_putnbr_fd(long n, int fd)
 {
-	long	tmp;
+	int	ret;
 
-	tmp = n;
-	if (tmp < 0)
+	if (n < 0)
 	{
-		write(fd, "-", 1);
-		tmp *= -1;
+		ret = write(fd, "-", 1);
+		n *= -1;
 	}
-	if (tmp > 9)
+	if (n > 9)
 	{
-		ft_putnbr_fd(tmp / 10, fd);
-		tmp %= 10;
+		ft_putnbr_fd(n / 10, fd);
+		n %= 10;
 	}
-	ft_putchar_fd(tmp + '0', fd);
+	ft_putchar_fd(n + '0', fd);
+	(void)ret;
 }
 
 int	ft_atoi(const char *nptr)
@@ -69,7 +73,7 @@ int	ft_atoi(const char *nptr)
 	return ((int)result * sign);
 }
 
-long long	ft_gettime(void)
+long long	get_time(void)
 {
 	struct timeval	te;
 	long long		milliseconds;

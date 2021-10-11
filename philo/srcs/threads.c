@@ -6,21 +6,11 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2021/10/05 03:25:26 by marvin           ###   ########.fr       */
+/*   Updated: 2021/10/11 08:15:59 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static int	check_death(t_philo *philo)
-{
-	if (ft_gettime() - philo->env->time_start >= philo->env->die)
-	{
-		philo->env->is_dead = 1;
-		return (1);
-	}
-	return (0);
-}
 
 static void	*routine(void *param)
 {
@@ -28,62 +18,64 @@ static void	*routine(void *param)
 
 	philo = (t_philo *)param;
 	if (philo->id % 2)
-		ft_usleep(philo->env->eat);
-	while (check_death(philo) == 0)
+		ft_usleep(philo->env->eat / 10);
+	while (philo->env->finish == 0)
 	{
 		if (eat_routine(philo) != 0)
-			return (NULL);
+			break ;
+		if (philo->env->finish != 0)
+			break ;
 		if (sleep_routine(philo) != 0)
-			return (NULL);
+			break ;
+		if (philo->env->finish != 0)
+			break ;
 		if (think_routine(philo) != 0)
-			return (NULL);
+			break ;
 	}
 	return (NULL);
 }
 
-static void	watcher(void *param)
+static void	watcher(t_env *env)
 {
+	int		i;
 	t_philo	*philo;
 
-	philo = (t_philo *)param;
-	while (philo->env->is_dead == 0)
+	while (env->finish == 0)
 	{
-		if (philo->eating == 0
-			&& ft_gettime() - philo->last_eat >= philo->env->die)
+		i = 0;
+		while (i < env->nb_philo && env->finish == 0)
 		{
-			if (pthread_mutex_lock(&philo->env->print))
-				return (NULL);
-			write_action(philo, philo->id, " die");
-			if (pthread_mutex_unlock(&philo->env->print))
-				return (NULL);
-			philo->env->is_dead = 1;
+			philo = &env->philo[i];
+			if (philo->eating == 0 && get_time() - philo->last_eat >= env->die)
+			{
+				if (pthread_mutex_lock(&env->print))
+					return ;
+				write_action(philo->env->time_start, philo->id, " die");
+				if (pthread_mutex_unlock(&env->print))
+					return ;
+				env->finish = 1;
+			}
+			if (philo->nb_eat == env->m_eat)
+				env->finish = 2;
+			i++;
 		}
 	}
 }
 
-int	create_threads(t_env *env)
+int	threads(t_env *env)
 {
 	int	i;
 
-	env->philo = malloc(sizeof(t_philo) * env->nb_philo);
-	if (!env->philo)
-		return (ft_exit("Error : Malloc error", 0));
 	i = -1;
-	env->time_start = ft_gettime();
 	while (++i < env->nb_philo)
 		if (pthread_create(&env->philo[i].thread, NULL, routine,
-				&env->philo[i]))
+				&(env->philo[i])))
 			return (ft_exit("Error : Cannot create threads", 0));
+	watcher(env);
 	i = -1;
 	while (++i < env->nb_philo)
-		if (pthread_create(&env->philo[i].thread, NULL, watcher,
-				&env->philo[i]))
-			return (ft_exit("Error : Cannot create threads", 0));
-	while (env->is_dead == 0)
-		;
-	i = -1;
-	while (++i < env->nb_philo)
-		if (pthread_detach(env->philo[i].thread))
+		if (pthread_join(env->philo[i].thread, NULL))
 			return (ft_exit("Error : Cannot detach threads", 0));
+	ft_usleep(10);
 	return (1);
 }

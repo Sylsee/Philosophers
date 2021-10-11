@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2021/10/05 01:44:19 by marvin           ###   ########.fr       */
+/*   Updated: 2021/10/11 08:11:32 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,18 @@
 typedef struct s_philo
 {
 	int				id;
+	int				eating;
+	int				nb_eat;
+	long long		last_eat;
 	pthread_t		thread;
 	pthread_mutex_t	l_fork;
-	pthread_mutex_t	r_fork;
+	pthread_mutex_t	*r_fork;
 	struct s_env	*env;
 }				t_philo;
 
 typedef struct s_env
 {
-	int				is_dead;
+	int				finish;
 	int				nb_philo;
 	int				die;
 	int				eat;
@@ -48,17 +51,18 @@ int			check_arg(int argc, char **argv);
 
 int			initialize(t_env *env);
 
-int			create_threads(t_env *env);
+int			threads(t_env *env);
 
 int			eat_routine(t_philo *philo);
 int			think_routine(t_philo *philo);
 int			sleep_routine(t_philo *philo);
 
+void		write_action(long long time_start, int id, char *s);
 void		ft_usleep(uint64_t miliseconds);
 int			ft_atoi(const char *s);
-void		ft_putendl_fd(char *s, int fd);
-void		ft_putnbr_fd(int n, int fd);
-long long	ft_gettime(void);
+void		ft_putstr_fd(char *s, int fd);
+void		ft_putnbr_fd(long n, int fd);
+long long	get_time(void);
 
 int			ft_exit(char *s, int ret);
 

@@ -31,7 +31,7 @@ int	parse(int argc, char **argv, t_env *env)
 {
 	if (check_arg(argc, argv))
 	{
-		env->is_dead = 0;
+		env->finish = 0;
 		env->nb_philo = ft_atoi(argv[1]);
 		env->die = ft_atoi(argv[2]);
 		env->eat = ft_atoi(argv[3]);
