@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 03:22:02 by marvin            #+#    #+#             */
-/*   Updated: 2021/10/11 07:45:37 by spoliart         ###   ########.fr       */
+/*   Updated: 2021/10/12 05:54:37 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_putstr_fd(char *s, int fd)
 void	ft_putchar_fd(char c, int fd)
 {
 	int	ret;
+
 	ret = write(fd, &c, 1);
 	(void)ret;
 }
