@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2021/10/11 08:11:32 by spoliart         ###   ########.fr       */
+/*   Updated: 2021/10/12 10:34:30 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			eat_routine(t_philo *philo);
 int			think_routine(t_philo *philo);
 int			sleep_routine(t_philo *philo);
 
-void		write_action(long long time_start, int id, char *s);
+void		write_action(long long time, int id, char *s);
 void		ft_usleep(uint64_t miliseconds);
 int			ft_atoi(const char *s);
 void		ft_putstr_fd(char *s, int fd);
