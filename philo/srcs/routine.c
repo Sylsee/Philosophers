@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2021/10/12 06:09:46 by spoliart         ###   ########.fr       */
+/*   Updated: 2021/10/12 09:30:22 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,21 @@ void	ft_usleep(uint64_t miliseconds)
 
 int	eat_routine(t_philo *philo)
 {
-	if (philo->env->finish != 0)
-		return (0);
 	pthread_mutex_lock(&philo->l_fork);
-	if (philo->env->finish != 0)
-		return (0);
 	pthread_mutex_lock(&philo->env->print);
-	write_action(philo->env->time_start, philo->id, " has taking left fork");
+	if (philo->env->finish == 0)
+		write_action(philo->env->time_start, philo->id, " has taking left fork");
 	pthread_mutex_unlock(&philo->env->print);
-	if (philo->env->finish != 0)
-		return (0);
 	pthread_mutex_lock(philo->r_fork);
-	pthread_mutex_lock(&philo->env->print);
 	philo->eating = 1;
-	write_action(philo->env->time_start, philo->id, " has taking right fork");
-	write_action(philo->env->time_start, philo->id, " is eating");
+	pthread_mutex_lock(&philo->env->print);
+	if (philo->env->finish == 0)
+		write_action(philo->env->time_start, philo->id, " has taking right fork");
+	if (philo->env->finish == 0)
+		write_action(philo->env->time_start, philo->id, " is eating");
 	pthread_mutex_unlock(&philo->env->print);
-	if (philo->env->finish != 0)
-		return (0);
-	ft_usleep(philo->env->eat);
+	if (philo->env->finish == 0)
+		ft_usleep(philo->env->eat);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(&philo->l_fork);
 	philo->last_eat = get_time();

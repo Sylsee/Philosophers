@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2021/10/12 06:09:19 by spoliart         ###   ########.fr       */
+/*   Updated: 2021/10/12 09:36:56 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	*routine(void *param)
 		if (think_routine(philo) != 0)
 			break ;
 	}
+	printf("finish: [%d]\n", philo->env->finish);
 	return (NULL);
 }
 
