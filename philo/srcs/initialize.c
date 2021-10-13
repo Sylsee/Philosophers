@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 02:15:48 by marvin            #+#    #+#             */
-/*   Updated: 2021/10/12 05:43:36 by spoliart         ###   ########.fr       */
+/*   Updated: 2021/10/13 04:23:41 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	mutex_initialize(t_env *env)
 {
 	if (pthread_mutex_init(&env->print, NULL))
+		return (ft_exit("Error : Fail to init mutex", 0));
+	if (pthread_mutex_init(&env->finish, NULL))
 		return (ft_exit("Error : Fail to init mutex", 0));
 	return (1);
 }
