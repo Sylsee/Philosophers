@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2021/10/12 10:34:18 by spoliart         ###   ########.fr       */
+/*   Updated: 2021/10/14 03:51:18 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	think_routine(t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->env->print))
 		return (ft_exit("Error : pthread_mutex_lock error", 1));
-	write_action(philo->env->time_start, philo->id, " is thinking");
+	if (philo->env->finish == 0)
+		write_action(philo->env->time_start, philo->id, " is thinking");
 	if (pthread_mutex_unlock(&philo->env->print))
 		return (ft_exit("Error : pthread_mutex_unlock error", 1));
 	return (0);
@@ -67,9 +68,11 @@ int	sleep_routine(t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->env->print))
 		return (ft_exit("Error : pthread_mutex_lock error", 1));
-	write_action(philo->env->time_start, philo->id, " is sleeping");
+	if (philo->env->finish == 0)
+		write_action(philo->env->time_start, philo->id, " is sleeping");
 	if (pthread_mutex_unlock(&philo->env->print))
 		return (ft_exit("Error : pthread_mutex_unlock error", 1));
-	ft_usleep(philo->env->sleep);
+	if (philo->env->finish == 0)
+		ft_usleep(philo->env->sleep);
 	return (0);
 }
