@@ -6,7 +6,7 @@
 #    By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/13 01:56:04 by spoliart          #+#    #+#              #
-#    Updated: 2021/10/11 07:43:55 by spoliart         ###   ########.fr        #
+#    Updated: 2022/01/13 18:10:23 by spoliart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ all:	$(NAME)
 
 $(NAME):	$(OBJS)
 	@printf "\033[2K\r$(_GREEN) All $@ files compiled into '$O'. $(_END)✅\n"
-	$(CC) $(CFLAGS) $(INC) $^ -o $@ $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(INC) $^ -o $@ $(LDFLAGS)
 	@printf "$(_GREEN) Binary '$(NAME)' created. $(_END)✅\n"
 
 $O:
