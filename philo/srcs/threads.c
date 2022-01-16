@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2021/10/14 03:50:03 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/16 15:12:29 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,26 @@ int	threads(t_env *env)
 
 	i = -1;
 	while (++i < env->nb_philo)
+	{
 		if (pthread_create(&env->philo[i].thread, NULL, routine,
 				&(env->philo[i])))
-			return (ft_exit("Error : Cannot create threads", 0));
+			return (ft_exit("Error : Cannot create threads", EXIT_FAILURE));
+	}
 	watcher(env);
 	i = -1;
-	while (++i < env->nb_philo)
-		if (pthread_join(env->philo[i].thread, NULL))
-			return (ft_exit("Error : Cannot detach threads", 0));
+	if (env->nb_philo == 1)
+	{
+		if (pthread_detach(env->philo[0].thread))
+			return (ft_exit("Error : Cannot detach threads", EXIT_FAILURE));
+	}
+	else
+	{
+		while (++i < env->nb_philo)
+		{
+			if (pthread_join(env->philo[i].thread, NULL))
+				return (ft_exit("Error : Cannot join threads", EXIT_FAILURE));
+		}
+	}
 	ft_usleep(10);
 	return (1);
 }
