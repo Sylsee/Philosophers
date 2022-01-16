@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/16 18:10:07 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/16 18:13:46 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	eat_routine(t_philo *philo)
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(&philo->l_fork);
 	philo->eating = false;
-	philo->last_eat = get_time();
 	philo->nb_eat++;
+	philo->last_eat = get_time();
 	return (0);
 }
 
