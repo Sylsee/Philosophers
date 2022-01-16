@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:10:03 by spoliart          #+#    #+#             */
-/*   Updated: 2021/10/12 09:34:08 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/16 17:28:37 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]", 0));
 		return (1);
 	if (!(initialize(&env)))
 		return (1);
-	if (!(threads(&env)))
+	if (threads(&env) == EXIT_FAILURE)
 		return (ft_exit("Error: Canno't create threads", 2));
 	destroy_free(&env);
 	return (0);

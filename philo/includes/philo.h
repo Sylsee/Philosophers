@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2021/10/12 10:34:30 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/16 17:57:05 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_H
 
 # include <stdio.h>
+# include <stdbool.h>
 # include <stdint.h>
 # include <string.h>
 # include <stdlib.h>
@@ -24,8 +25,8 @@
 typedef struct s_philo
 {
 	int				id;
-	int				eating;
 	int				nb_eat;
+	bool			eating;
 	long long		last_eat;
 	pthread_t		thread;
 	pthread_mutex_t	l_fork;
@@ -35,7 +36,7 @@ typedef struct s_philo
 
 typedef struct s_env
 {
-	int				finish;
+	bool			finish;
 	int				nb_philo;
 	int				die;
 	int				eat;
