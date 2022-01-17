@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:10:03 by spoliart          #+#    #+#             */
-/*   Updated: 2022/01/16 17:28:37 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/17 20:09:38 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 {
 	t_env	env;
 
-	if (argc < 5 && argc > 6)
+	if (argc < 5 || argc > 6)
 		return (ft_exit("Usage: ./philo number_of_philosophers time_to_die \
 time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]", 0));
 	if (!(parse(argc, argv, &env)))
