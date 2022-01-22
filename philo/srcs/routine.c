@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/18 18:56:18 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/22 12:11:42 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ void	ft_usleep(uint64_t miliseconds)
 		usleep(1);
 }
 
-int	eat_routine(t_philo *philo)
+void	eat_routine(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->l_fork);
 	pthread_mutex_lock(philo->r_fork);
 	pthread_mutex_lock(&philo->env->eating);
+	philo->last_eat = get_time();
 	if (philo->env->finish == false)
 	{
 		pthread_mutex_lock(&philo->env->print);
@@ -45,36 +46,28 @@ int	eat_routine(t_philo *philo)
 		write_action(philo->env->time_start, philo->id, " is eating");
 		pthread_mutex_unlock(&philo->env->print);
 	}
-	philo->last_eat = get_time();
 	pthread_mutex_unlock(&philo->env->eating);
 	if (philo->env->finish == false)
-		ft_usleep(philo->env->eat);
+		ft_usleep(philo->last_eat - get_time() + philo->env->eat);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(&philo->l_fork);
 	philo->nb_eat++;
-	return (0);
 }
 
-int	think_routine(t_philo *philo)
+void	think_routine(t_philo *philo)
 {
-	if (pthread_mutex_lock(&philo->env->print))
-		return (ft_exit("Error : pthread_mutex_lock error", 1));
+	pthread_mutex_lock(&philo->env->print);
 	if (philo->env->finish == false)
 		write_action(philo->env->time_start, philo->id, " is thinking");
-	if (pthread_mutex_unlock(&philo->env->print))
-		return (ft_exit("Error : pthread_mutex_unlock error", 1));
-	return (0);
+	pthread_mutex_unlock(&philo->env->print);
 }
 
-int	sleep_routine(t_philo *philo)
+void	sleep_routine(t_philo *philo)
 {
-	if (pthread_mutex_lock(&philo->env->print))
-		return (ft_exit("Error : pthread_mutex_lock error", 1));
+	pthread_mutex_lock(&philo->env->print);
 	if (philo->env->finish == false)
 		write_action(philo->env->time_start, philo->id, " is sleeping");
-	if (pthread_mutex_unlock(&philo->env->print))
-		return (ft_exit("Error : pthread_mutex_unlock error", 1));
+	pthread_mutex_unlock(&philo->env->print);
 	if (philo->env->finish == false)
 		ft_usleep(philo->env->sleep);
-	return (0);
 }

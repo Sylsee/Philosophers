@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2022/01/18 18:36:11 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/22 11:57:26 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int			initialize(t_env *env);
 
 int			threads(t_env *env);
 
-int			eat_routine(t_philo *philo);
-int			think_routine(t_philo *philo);
-int			sleep_routine(t_philo *philo);
+void		eat_routine(t_philo *philo);
+void		think_routine(t_philo *philo);
+void		sleep_routine(t_philo *philo);
 
 void		write_action(long long time, int id, char *s);
 void		ft_usleep(uint64_t miliseconds);

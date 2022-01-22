@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/18 18:36:27 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/22 12:08:55 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,13 @@ static void	*routine(void *param)
 		ft_usleep(philo->env->eat / 10);
 	while (philo->env->finish == false)
 	{
-		if (eat_routine(philo) != 0)
-			break ;
+		eat_routine(philo);
 		if (philo->env->finish == true)
 			break ;
-		if (sleep_routine(philo) != 0)
-			break ;
+		sleep_routine(philo);
 		if (philo->env->finish == true)
 			break ;
-		if (think_routine(philo) != 0)
-			break ;
+		think_routine(philo);
 	}
 	return (NULL);
 }
@@ -40,12 +37,10 @@ static void	check_death(t_env *env, t_philo philo, int *finish_eat)
 	pthread_mutex_lock(&env->eating);
 	if (get_time() - philo.last_eat >= env->die)
 	{
-		if (pthread_mutex_lock(&env->print))
-			return ;
+		pthread_mutex_lock(&env->print);
 		write_action(env->time_start, philo.id, " die");
 		env->finish = true;
-		if (pthread_mutex_unlock(&env->print))
-			return ;
+		pthread_mutex_unlock(&env->print);
 	}
 	pthread_mutex_unlock(&env->eating);
 	if (env->m_eat != -1 && philo.nb_eat >= env->m_eat)
