@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/22 12:11:42 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/23 19:10:29 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	eat_routine(t_philo *philo)
 	pthread_mutex_lock(philo->r_fork);
 	pthread_mutex_lock(&philo->env->eating);
 	philo->last_eat = get_time();
+	pthread_mutex_unlock(&philo->env->eating);
 	if (philo->env->finish == false)
 	{
 		pthread_mutex_lock(&philo->env->print);
@@ -46,9 +47,8 @@ void	eat_routine(t_philo *philo)
 		write_action(philo->env->time_start, philo->id, " is eating");
 		pthread_mutex_unlock(&philo->env->print);
 	}
-	pthread_mutex_unlock(&philo->env->eating);
 	if (philo->env->finish == false)
-		ft_usleep(philo->last_eat - get_time() + philo->env->eat);
+		ft_usleep(philo->env->eat);
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_unlock(&philo->l_fork);
 	philo->nb_eat++;
