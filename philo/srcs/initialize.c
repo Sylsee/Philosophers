@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 02:15:48 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/18 18:37:15 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/27 21:21:35 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ int	initialize(t_env *env)
 			env->philo[id].r_fork = &env->philo[id + 1].l_fork;
 		id++;
 	}
+	if (pthread_mutex_init(&env->m_finish, NULL))
+		return (ft_exit("Error : Fail to init mutex", 0));
 	return (mutex_initialize(env));
 }

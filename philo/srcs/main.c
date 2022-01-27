@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:10:03 by spoliart          #+#    #+#             */
-/*   Updated: 2022/01/17 20:09:38 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:55:39 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void	destroy_free(t_env *env)
 	while (++i < env->nb_philo)
 		pthread_mutex_destroy(&env->philo[i].l_fork);
 	pthread_mutex_destroy(&env->print);
+	pthread_mutex_destroy(&env->eating);
+	pthread_mutex_destroy(&env->m_finish);
 	free(env->philo);
 }
 

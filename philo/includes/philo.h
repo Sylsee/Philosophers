@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2022/01/22 11:57:26 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:55:16 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_env
 	t_philo			*philo;
 	pthread_mutex_t	print;
 	pthread_mutex_t	eating;
+	pthread_mutex_t	m_finish;
 }				t_env;
 
 int			parse(int argc, char **argv, t_env *env);
