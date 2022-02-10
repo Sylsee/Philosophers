@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/10 17:41:42 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/10 17:59:06 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ static void	unlock(t_philo *philo)
 void	eat_routine(t_philo *philo)
 {
 	lock(philo);
+	pthread_mutex_lock(&philo->env->eating);
+	philo->last_eat = get_time();
+	pthread_mutex_unlock(&philo->env->eating);
 	pthread_mutex_lock(&philo->env->print);
 	if (philo->env->finish == false)
 	{
