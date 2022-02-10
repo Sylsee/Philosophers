@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/10 17:42:20 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/10 17:54:00 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ static void	*routine(void *param)
 	return (NULL);
 }
 
-static void	check_death(t_env *env, t_philo philo, int *finish_eat)
+static void	check_death(t_env *env, int i, int *finish_eat)
 {
 	pthread_mutex_lock(&env->eating);
-	if (get_time() - philo.last_eat >= env->die)
+	if (get_time() - env->philo[i].last_eat >= env->die)
 	{
 		pthread_mutex_lock(&env->print);
-		write_action(env->time_start, philo.id, " die");
+		write_action(env->time_start, env->philo[i].id, " die");
 		env->finish = true;
 		pthread_mutex_unlock(&env->print);
 	}
 	pthread_mutex_unlock(&env->eating);
 	pthread_mutex_lock(&env->print);
-	if (env->m_eat != -1 && philo.nb_eat >= env->m_eat)
+	if (env->m_eat != -1 && env->philo[i].nb_eat >= env->m_eat)
 	{
 		pthread_mutex_unlock(&env->print);
 		(*finish_eat)++;
@@ -84,7 +84,7 @@ static void	watcher(t_env *env)
 		while (env->finish == false && i < env->nb_philo)
 		{
 			pthread_mutex_unlock(&env->print);
-			check_death(env, env->philo[i], &finish_eat);
+			check_death(env, i, &finish_eat);
 			i++;
 			pthread_mutex_lock(&env->print);
 		}
