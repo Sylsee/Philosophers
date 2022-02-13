@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2022/02/10 15:26:36 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/13 20:23:51 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_philo
 	int				nb_eat;
 	long long		last_eat;
 	pthread_t		thread;
-	pthread_mutex_t	l_fork;
+	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	struct s_env	*env;
 }				t_philo;
@@ -50,15 +50,15 @@ typedef struct s_env
 int			parse(int argc, char **argv, t_env *env);
 int			check_arg(int argc, char **argv);
 
-int			initialize(t_env *env);
+int			initialize(t_env *env, pthread_mutex_t *tab);
 
 int			threads(t_env *env);
 
 void		eat_routine(t_philo *philo);
 void		sleep_think_routine(t_philo *philo);
 
-void		write_action(long long time, int id, char *s);
-void		ft_usleep(uint64_t miliseconds);
+void		write_action(long long time, t_philo *philo, char *s);
+void		ft_usleep(uint64_t miliseconds, t_env *env);
 int			ft_atoi(const char *s);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putnbr_fd(long n, int fd);

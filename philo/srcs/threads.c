@@ -6,19 +6,19 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/10 17:54:00 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/13 22:41:39 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	write_action(long long time, int id, char *s)
+static void	swap_forks(pthread_mutex_t **l, pthread_mutex_t **r)
 {
-	ft_putnbr_fd(get_time() - time, 1);
-	ft_putstr_fd(" ", 1);
-	ft_putnbr_fd(id, 1);
-	ft_putstr_fd(s, 1);
-	ft_putstr_fd("\n", 1);
+	pthread_mutex_t	*tmp;
+
+	tmp = *l;
+	*l = *r;
+	*r = tmp;
 }
 
 static void	*routine(void *param)
@@ -27,7 +27,10 @@ static void	*routine(void *param)
 
 	philo = (t_philo *)param;
 	if (philo->id % 2)
-		ft_usleep(philo->env->eat / 10);
+	{
+		swap_forks(&philo->l_fork, &philo->r_fork);
+		ft_usleep(philo->env->eat / 5, philo->env);
+	}
 	pthread_mutex_lock(&philo->env->print);
 	while (philo->env->finish == false)
 	{
@@ -44,13 +47,13 @@ static void	*routine(void *param)
 	return (NULL);
 }
 
-static void	check_death(t_env *env, int i, int *finish_eat)
+static inline void	check_death(t_env *env, int i, int *finish_eat)
 {
 	pthread_mutex_lock(&env->eating);
 	if (get_time() - env->philo[i].last_eat >= env->die)
 	{
+		write_action(env->time_start, &env->philo[i], " die");
 		pthread_mutex_lock(&env->print);
-		write_action(env->time_start, env->philo[i].id, " die");
 		env->finish = true;
 		pthread_mutex_unlock(&env->print);
 	}
@@ -66,9 +69,9 @@ static void	check_death(t_env *env, int i, int *finish_eat)
 			env->finish = true;
 			pthread_mutex_unlock(&env->print);
 		}
-		pthread_mutex_lock(&env->print);
 	}
-	pthread_mutex_unlock(&env->print);
+	else
+		pthread_mutex_unlock(&env->print);
 }
 
 static void	watcher(t_env *env)
@@ -115,7 +118,7 @@ int	threads(t_env *env)
 		while (++i < env->nb_philo)
 			if (pthread_join(env->philo[i].thread, NULL))
 				return (ft_exit("Error : Cannot join threads", EXIT_FAILURE));
-		ft_usleep(10);
+		usleep(10);
 	}
 	return (EXIT_SUCCESS);
 }
