@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 02:15:48 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/14 01:55:53 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 02:12:17 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ static void	init_forks(t_env *env, pthread_mutex_t *forks, int i)
 {
 	if (i % 2)
 	{
-		env->philo[i].r_fork = forks[i];
+		env->philo[i].r_fork = &forks[i];
 		if (i < env->nb_philo - 1)
-			env->philo[i].l_fork = forks[i + 1];
+			env->philo[i].l_fork = &forks[i + 1];
 		else
-			env->philo[i].l_fork = forks[0];
+			env->philo[i].l_fork = &forks[0];
 	}
 	else
 	{
-		env->philo[i].l_fork = forks[i];
+		env->philo[i].l_fork = &forks[i];
 		if (i < env->nb_philo - 1)
-			env->philo[i].r_fork = forks[i + 1];
+			env->philo[i].r_fork = &forks[i + 1];
 		else
-			env->philo[i].r_fork = forks[0];
+			env->philo[i].r_fork = &forks[0];
 	}
 }
 

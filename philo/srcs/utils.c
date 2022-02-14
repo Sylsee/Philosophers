@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 03:22:02 by marvin            #+#    #+#             */
-/*   Updated: 2021/10/12 05:54:37 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 02:49:07 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,9 @@ void	ft_putstr_fd(char *s, int fd)
 	(void)ret;
 }
 
-void	ft_putchar_fd(char c, int fd)
+__attribute__((always_inline)) inline void	ft_putchar_fd(char c, int fd)
 {
-	int	ret;
-
-	ret = write(fd, &c, 1);
-	(void)ret;
+	write(fd, &c, 1);
 }
 
 void	ft_putnbr_fd(long n, int fd)

@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/14 01:33:20 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 02:47:26 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,20 @@ void	write_action(long long time, t_philo *philo, char *s)
 
 void	work(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->r_fork);
+	pthread_mutex_lock(philo->r_fork);
 	write_action(philo->env->time_start, philo, " has taken a fork");
-	pthread_mutex_lock(&philo->l_fork);
+	pthread_mutex_lock(philo->l_fork);
 	write_action(philo->env->time_start, philo, " has taken a fork");
+	write_action(philo->env->time_start, philo, " is eating");
 	pthread_mutex_lock(&philo->env->eating);
 	philo->last_eat = get_time();
 	pthread_mutex_unlock(&philo->env->eating);
-	write_action(philo->env->time_start, philo, " is eating");
 	ft_usleep(philo->env->eat, philo->env);
 	pthread_mutex_lock(&philo->env->print);
 	philo->nb_eat++;
 	pthread_mutex_unlock(&philo->env->print);
-	pthread_mutex_unlock(&philo->l_fork);
-	pthread_mutex_unlock(&philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
 	write_action(philo->env->time_start, philo, " is sleeping");
 	ft_usleep(philo->env->sleep, philo->env);
 	write_action(philo->env->time_start, philo, " is thinking");
