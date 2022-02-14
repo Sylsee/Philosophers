@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/14 02:40:19 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 02:51:19 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	*routine(void *param)
 	return (NULL);
 }
 
-void	check_death(t_env *env, int i, int *finish_eat)
+static void	check_death(t_env *env, int i, int *finish_eat)
 {
 	pthread_mutex_lock(&env->eating);
 	if (get_time() - env->philo[i].last_eat >= env->die)

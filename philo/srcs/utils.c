@@ -6,24 +6,22 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 03:22:02 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/14 02:49:07 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 02:54:49 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_putstr_fd(char *s, int fd)
+__attribute__((always_inline)) inline void	ft_putstr_fd(char *s, int fd)
 {
-	int	ret;
-
 	if (!s)
 		return ;
 	while (*s)
-		ret = write(fd, s++, 1);
-	(void)ret;
+		write(fd, s++, 1);
 }
 
-__attribute__((always_inline)) inline void	ft_putchar_fd(char c, int fd)
+__attribute__((always_inline)) static inline void	ft_putchar_fd(char c,
+		int fd)
 {
 	write(fd, &c, 1);
 }
@@ -71,7 +69,7 @@ int	ft_atoi(const char *nptr)
 	return ((int)result * sign);
 }
 
-long long	get_time(void)
+__attribute__((always_inline)) inline long long	get_time(void)
 {
 	struct timeval	te;
 	long long		milliseconds;

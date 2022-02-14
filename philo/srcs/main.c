@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:10:03 by spoliart          #+#    #+#             */
-/*   Updated: 2022/02/14 01:52:08 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 02:59:04 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	destroy_free(t_env *env, pthread_mutex_t *forks)
 	free(env->philo);
 }
 
-void	one_philo(t_env env)
+static void	one_philo(t_env env)
 {
 	printf("0ms 1 has taken a fork\n");
 	ft_usleep(env.die, &env);

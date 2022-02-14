@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/14 02:47:26 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 02:59:46 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	ft_usleep(uint64_t miliseconds, t_env *env)
 	pthread_mutex_unlock(&env->print);
 }
 
-void	write_action(long long time, t_philo *philo, char *s)
+__attribute__((always_inline)) inline void	write_action(long long time,
+		t_philo *philo, char *s)
 {
 	pthread_mutex_lock(&philo->env->print);
 	if (philo->env->finish == false)
