@@ -6,46 +6,66 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 02:15:48 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/13 20:20:05 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 01:55:53 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	mutex_initialize(t_env *env)
+static void	init_forks(t_env *env, pthread_mutex_t *forks, int i)
 {
+	if (i % 2)
+	{
+		env->philo[i].r_fork = forks[i];
+		if (i < env->nb_philo - 1)
+			env->philo[i].l_fork = forks[i + 1];
+		else
+			env->philo[i].l_fork = forks[0];
+	}
+	else
+	{
+		env->philo[i].l_fork = forks[i];
+		if (i < env->nb_philo - 1)
+			env->philo[i].r_fork = forks[i + 1];
+		else
+			env->philo[i].r_fork = forks[0];
+	}
+}
+
+static int	initialize_mutex(t_env *env, pthread_mutex_t *forks)
+{
+	int	i;
+
+	i = 0;
+	while (i < env->nb_philo)
+	{
+		init_forks(env, forks, i);
+		i++;
+	}
 	if (pthread_mutex_init(&env->print, NULL))
-		return (ft_exit("Error : Fail to init mutex", 0));
+		return (internal_error("Error : Fail to init mutex"));
 	if (pthread_mutex_init(&env->eating, NULL))
-		return (ft_exit("Error : Fail to init mutex", 0));
+		return (internal_error("Error : Fail to init mutex"));
 	return (1);
 }
 
-int	initialize(t_env *env, pthread_mutex_t *tab)
+int	initialize(t_env *env, pthread_mutex_t *forks)
 {
 	int	id;
 
 	env->philo = malloc(sizeof(t_philo) * env->nb_philo);
 	if (!env->philo)
-		return (ft_exit("Malloc error", 0));
-	env->time_start = get_time();
+		return (internal_error("Malloc error"));
 	env->finish = false;
 	id = 0;
 	while (id < env->nb_philo)
 	{
 		env->philo[id].id = id + 1;
-		env->philo[id].last_eat = env->time_start;
 		env->philo[id].nb_eat = 0;
 		env->philo[id].env = &(*env);
-		env->philo[id].r_fork = NULL;
-		if (pthread_mutex_init(&tab[id], NULL))
-			return (ft_exit("Error : Fail to init mutex", 0));
-		env->philo[id].l_fork = &tab[id];
-		if (id == env->nb_philo - 1)
-			env->philo[id].r_fork = &tab[0];
-		else
-			env->philo[id].r_fork = &tab[id + 1];
+		if (pthread_mutex_init(&forks[id], NULL))
+			return (internal_error("Error : Fail to init mutex"));
 		id++;
 	}
-	return (mutex_initialize(env));
+	return (initialize_mutex(env, forks));
 }

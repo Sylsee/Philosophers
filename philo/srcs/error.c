@@ -6,15 +6,15 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 11:35:44 by spoliart          #+#    #+#             */
-/*   Updated: 2021/10/11 02:32:39 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 01:50:35 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_exit(char *s, int ret)
+int	internal_error(char *s)
 {
 	ft_putstr_fd(s, 2);
 	ft_putstr_fd("\n", 2);
-	return (ret);
+	return (EXIT_FAILURE);
 }

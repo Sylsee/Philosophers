@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:48:23 by spoliart          #+#    #+#             */
-/*   Updated: 2022/02/10 13:40:40 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 01:52:33 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ int	parse(int argc, char **argv, t_env *env)
 			env->m_eat = ft_atoi(argv[5]);
 		if (env->die < 1 || env->eat < 1 || env->sleep < 1
 			|| ((env->m_eat < 1) && argc == 6))
-			return (ft_exit("Error: Arguments must be positive and non-null",
-					0));
+			return (internal_error("Error: Arguments must be positive and"
+					" non-null"));
 		if (env->nb_philo > 200)
-			return (ft_exit("Error : There cannot be more than 200\
-philosophers", 0));
+			return (internal_error("Error : There cannot be more than 200"
+					" philosophers"));
 		return (1);
 	}
-	return (ft_exit("Error : Arguments must be positive and non-null", 0));
+	return (internal_error("Error : Arguments must be positive and non-null"));
 }

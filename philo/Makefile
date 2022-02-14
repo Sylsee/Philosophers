@@ -6,7 +6,7 @@
 #    By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/13 01:56:04 by spoliart          #+#    #+#              #
-#    Updated: 2022/02/12 18:45:18 by spoliart         ###   ########.fr        #
+#    Updated: 2022/02/14 02:03:34 by spoliart         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ OBJS= $(SRCS:%.c=$O%.o)
 INC= -I$I
 
 CC= gcc
-CFLAGS += -Wall -Werror -Wextra -g
+CFLAGS += -Wall -Werror -Wextra
 LDFLAGS += -pthread
 
 all:	$(NAME)

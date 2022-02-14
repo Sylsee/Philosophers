@@ -6,48 +6,29 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/13 22:41:39 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 01:51:19 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static void	swap_forks(pthread_mutex_t **l, pthread_mutex_t **r)
-{
-	pthread_mutex_t	*tmp;
-
-	tmp = *l;
-	*l = *r;
-	*r = tmp;
-}
 
 static void	*routine(void *param)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)param;
-	if (philo->id % 2)
-	{
-		swap_forks(&philo->l_fork, &philo->r_fork);
-		ft_usleep(philo->env->eat / 5, philo->env);
-	}
 	pthread_mutex_lock(&philo->env->print);
 	while (philo->env->finish == false)
 	{
 		pthread_mutex_unlock(&philo->env->print);
-		eat_routine(philo);
-		pthread_mutex_lock(&philo->env->print);
-		if (philo->env->finish == true)
-			break ;
-		pthread_mutex_unlock(&philo->env->print);
-		sleep_think_routine(philo);
+		work(philo);
 		pthread_mutex_lock(&philo->env->print);
 	}
 	pthread_mutex_unlock(&philo->env->print);
 	return (NULL);
 }
 
-static inline void	check_death(t_env *env, int i, int *finish_eat)
+void	check_death(t_env *env, int i, int *finish_eat)
 {
 	pthread_mutex_lock(&env->eating);
 	if (get_time() - env->philo[i].last_eat >= env->die)
@@ -67,6 +48,7 @@ static inline void	check_death(t_env *env, int i, int *finish_eat)
 		{
 			pthread_mutex_lock(&env->print);
 			env->finish = true;
+			printf("Everybody ate %d times\n", env->m_eat);
 			pthread_mutex_unlock(&env->print);
 		}
 	}
@@ -101,15 +83,14 @@ int	threads(t_env *env)
 {
 	int	i;
 
-	if (env->nb_philo != 1)
+	env->time_start = get_time();
+	i = -1;
+	while (++i < env->nb_philo)
 	{
-		i = -1;
-		while (++i < env->nb_philo)
-		{
-			if (pthread_create(&env->philo[i].thread, NULL, routine,
-					&(env->philo[i])))
-				return (ft_exit("Error : Cannot create threads", EXIT_FAILURE));
-		}
+		env->philo[i].last_eat = env->time_start;
+		if (pthread_create(&env->philo[i].thread, NULL, routine,
+				&(env->philo[i])))
+			return (internal_error("Error : Cannot create threads"));
 	}
 	watcher(env);
 	if (env->nb_philo != 1)
@@ -117,8 +98,8 @@ int	threads(t_env *env)
 		i = -1;
 		while (++i < env->nb_philo)
 			if (pthread_join(env->philo[i].thread, NULL))
-				return (ft_exit("Error : Cannot join threads", EXIT_FAILURE));
-		usleep(10);
+				return (internal_error("Error : Cannot join threads"));
+		usleep(100);
 	}
 	return (EXIT_SUCCESS);
 }

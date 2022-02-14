@@ -6,39 +6,49 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:10:03 by spoliart          #+#    #+#             */
-/*   Updated: 2022/02/13 20:21:49 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/14 01:52:08 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	destroy_free(t_env *env, pthread_mutex_t *tab)
+static void	destroy_free(t_env *env, pthread_mutex_t *forks)
 {
 	int	i;
 
 	i = -1;
 	while (++i < env->nb_philo)
-		pthread_mutex_destroy(&tab[i]);
+		pthread_mutex_destroy(&forks[i]);
 	pthread_mutex_destroy(&env->print);
 	pthread_mutex_destroy(&env->eating);
 	free(env->philo);
 }
 
+void	one_philo(t_env env)
+{
+	printf("0ms 1 has taken a fork\n");
+	ft_usleep(env.die, &env);
+	printf("%dms 1 die\n", env.die);
+}
+
 int	main(int argc, char **argv)
 {
-	pthread_mutex_t	*tab;
+	pthread_mutex_t	*forks;
 	t_env			env;
 
 	if (argc < 5 || argc > 6)
-		return (ft_exit("Usage: ./philo number_of_philosophers time_to_die \
-time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]", 0));
+		return (internal_error("Usage: ./philo number_of_philosophers"
+				" time_to_die time_to_eat time_to_sleep"
+				" [number_of_times_each_philosopher_must_eat]"));
 	if (!(parse(argc, argv, &env)))
 		return (1);
-	tab = malloc(sizeof(pthread_mutex_t) * env.nb_philo);
-	if (!(initialize(&env, tab)))
+	forks = malloc(sizeof(pthread_mutex_t) * env.nb_philo);
+	if (!(initialize(&env, forks)))
 		return (1);
-	if (threads(&env) == EXIT_FAILURE)
-		return (ft_exit("Error: Canno't create threads", 2));
-	destroy_free(&env, tab);
+	if (env.nb_philo == 1)
+		one_philo(env);
+	else if (threads(&env) == EXIT_FAILURE)
+		return (internal_error("Error: Canno't create threads"));
+	destroy_free(&env, forks);
 	return (0);
 }
