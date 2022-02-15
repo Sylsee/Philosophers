@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:11:25 by spoliart          #+#    #+#             */
-/*   Updated: 2022/02/14 02:47:19 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/15 18:14:19 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ typedef struct s_philo
 	pthread_t		thread;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	eating;
 	struct s_env	*env;
 }				t_philo;
 
 typedef struct s_env
 {
-	bool			finish;
+	bool			is_finish;
 	int				nb_philo;
 	int				die;
 	int				eat;
@@ -44,7 +45,7 @@ typedef struct s_env
 	long long		time_start;
 	t_philo			*philo;
 	pthread_mutex_t	print;
-	pthread_mutex_t	eating;
+	pthread_mutex_t	finish;
 }				t_env;
 
 int			parse(int argc, char **argv, t_env *env);

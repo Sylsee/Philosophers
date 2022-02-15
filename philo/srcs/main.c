@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:10:03 by spoliart          #+#    #+#             */
-/*   Updated: 2022/02/14 02:59:04 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/15 17:43:49 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@ static void	destroy_free(t_env *env, pthread_mutex_t *forks)
 {
 	int	i;
 
-	i = -1;
-	while (++i < env->nb_philo)
+	i = 0;
+	while (i < env->nb_philo)
+	{
 		pthread_mutex_destroy(&forks[i]);
+		pthread_mutex_destroy(&env->philo[i].eating);
+		i++;
+	}
 	pthread_mutex_destroy(&env->print);
-	pthread_mutex_destroy(&env->eating);
 	free(env->philo);
+	free(forks);
 }
 
 static void	one_philo(t_env env)
