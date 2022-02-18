@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:48:23 by spoliart          #+#    #+#             */
-/*   Updated: 2022/02/14 01:52:33 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/18 23:51:51 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	parse(int argc, char **argv, t_env *env)
 		if (env->nb_philo > 200)
 			return (internal_error("Error : There cannot be more than 200"
 					" philosophers"));
-		return (1);
+		return (EXIT_SUCCESS);
 	}
 	return (internal_error("Error : Arguments must be positive and non-null"));
 }

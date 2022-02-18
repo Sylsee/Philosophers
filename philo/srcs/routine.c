@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/18 17:48:31 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/19 00:09:11 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_usleep(uint64_t miliseconds, t_env *env)
 	while (env->is_finish == false && get_time() - start < miliseconds)
 	{
 		pthread_mutex_unlock(&env->finish);
-		usleep(100);
+		usleep(10);
 		pthread_mutex_lock(&env->finish);
 	}
 	pthread_mutex_unlock(&env->finish);
@@ -32,7 +32,6 @@ void	write_action(long long time, t_philo *philo, char *s)
 	pthread_mutex_lock(&philo->env->finish);
 	if (philo->env->is_finish == false)
 	{
-		pthread_mutex_unlock(&philo->env->finish);
 		pthread_mutex_lock(&philo->env->print);
 		ft_putnbr_fd(get_time() - time, 1);
 		ft_putstr_fd("ms ", 1);
@@ -40,6 +39,7 @@ void	write_action(long long time, t_philo *philo, char *s)
 		ft_putstr_fd(s, 1);
 		ft_putstr_fd("\n", 1);
 		pthread_mutex_unlock(&philo->env->print);
+		pthread_mutex_unlock(&philo->env->finish);
 	}
 	else
 		pthread_mutex_unlock(&philo->env->finish);
@@ -64,4 +64,6 @@ void	work(t_philo *philo)
 	write_action(philo->env->time_start, philo, " is sleeping");
 	ft_usleep(philo->env->sleep, philo->env);
 	write_action(philo->env->time_start, philo, " is thinking");
+	if (philo->env->nb_philo % 2)
+		ft_usleep(2, philo->env);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/18 18:07:29 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/19 00:07:58 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ static void	check_must_eat(t_env *env, t_philo *philo, int *finish_eat)
 	if (philo->nb_eat >= env->m_eat)
 	{
 		(*finish_eat)++;
+		pthread_mutex_lock(&env->finish);
 		if (*finish_eat == env->nb_philo)
 		{
-			pthread_mutex_lock(&env->finish);
 			env->is_finish = true;
 			pthread_mutex_lock(&env->print);
 			printf("%lldms Each philosophers ate %d times\n",
@@ -61,6 +61,8 @@ static void	check_must_eat(t_env *env, t_philo *philo, int *finish_eat)
 			pthread_mutex_unlock(&env->print);
 			pthread_mutex_unlock(&env->finish);
 		}
+		else
+			pthread_mutex_unlock(&env->finish);
 		pthread_mutex_unlock(&philo->eating);
 	}
 	else

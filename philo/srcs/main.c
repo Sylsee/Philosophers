@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:10:03 by spoliart          #+#    #+#             */
-/*   Updated: 2022/02/18 17:11:40 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/18 23:51:23 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 		return (internal_error("Usage: ./philo number_of_philosophers"
 				" time_to_die time_to_eat time_to_sleep"
 				" [number_of_times_each_philosopher_must_eat]"));
-	if (!(parse(argc, argv, &env)))
+	if (parse(argc, argv, &env) != EXIT_SUCCESS)
 		return (1);
 	forks = malloc(sizeof(pthread_mutex_t) * env.nb_philo);
 	if (!(initialize(&env, forks)))
