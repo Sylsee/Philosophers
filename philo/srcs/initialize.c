@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 02:15:48 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/15 18:17:11 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/18 17:49:51 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	initialize(t_env *env, pthread_mutex_t *forks)
 	{
 		env->philo[id].id = id + 1;
 		env->philo[id].nb_eat = 0;
-		env->philo[id].env = &(*env);
+		env->philo[id].env = env;
 		if (pthread_mutex_init(&forks[id], NULL))
 			return (internal_error("Error : Fail to init mutex"));
 		if (pthread_mutex_init(&env->philo[id].eating, NULL))

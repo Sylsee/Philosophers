@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/15 19:38:05 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/18 18:07:29 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,48 +28,43 @@ static void	*routine(void *param)
 	return (NULL);
 }
 
-static void	check_death(t_env *env, t_philo philo)
+static void	check_death(t_env *env, t_philo *philo)
 {
-	pthread_mutex_lock(&philo.eating);
-	if (get_time() - philo.last_eat >= env->die)
+	pthread_mutex_lock(&philo->eating);
+	if (get_time() - philo->last_eat >= env->die)
 	{
-		pthread_mutex_unlock(&philo.eating);
+		pthread_mutex_unlock(&philo->eating);
 		pthread_mutex_lock(&env->finish);
 		env->is_finish = true;
 		pthread_mutex_lock(&env->print);
-		ft_putnbr_fd(get_time() - env->time_start, 1);
-		ft_putstr_fd("ms ", 1);
-		ft_putnbr_fd(philo.id, 1);
-		ft_putstr_fd(" die\n", 1);
+		printf("%lldms %d die\n", get_time() - env->time_start, philo->id);
 		pthread_mutex_unlock(&env->print);
 		pthread_mutex_unlock(&env->finish);
 	}
 	else
-		pthread_mutex_unlock(&philo.eating);
+		pthread_mutex_unlock(&philo->eating);
 }
 
-static void	check_must_eat(t_env *env, t_philo philo, int *finish_eat)
+static void	check_must_eat(t_env *env, t_philo *philo, int *finish_eat)
 {
-	pthread_mutex_lock(&philo.eating);
-	if (philo.nb_eat >= env->m_eat)
+	pthread_mutex_lock(&philo->eating);
+	if (philo->nb_eat >= env->m_eat)
 	{
-		pthread_mutex_unlock(&philo.eating);
 		(*finish_eat)++;
 		if (*finish_eat == env->nb_philo)
 		{
 			pthread_mutex_lock(&env->finish);
 			env->is_finish = true;
 			pthread_mutex_lock(&env->print);
-			ft_putnbr_fd(get_time() - env->time_start, 1);
-			ft_putstr_fd("ms Each philosophers ate ", 1);
-			ft_putnbr_fd(env->m_eat, 1);
-			ft_putstr_fd(" times\n", 1);
+			printf("%lldms Each philosophers ate %d times\n",
+				get_time() - env->time_start, env->m_eat);
 			pthread_mutex_unlock(&env->print);
 			pthread_mutex_unlock(&env->finish);
 		}
+		pthread_mutex_unlock(&philo->eating);
 	}
 	else
-		pthread_mutex_unlock(&philo.eating);
+		pthread_mutex_unlock(&philo->eating);
 }
 
 static void	watcher(t_env *env)
@@ -82,14 +77,14 @@ static void	watcher(t_env *env)
 	{
 		i = 0;
 		finish_eat = 0;
-		while (env->is_finish == false && i < env->nb_philo)
+		while (i < env->nb_philo && env->is_finish == false)
 		{
 			pthread_mutex_unlock(&env->finish);
-			check_death(env, env->philo[i]);
+			check_death(env, &env->philo[i]);
 			if (env->m_eat != -1)
-				check_must_eat(env, env->philo[i], &finish_eat);
-			i++;
+				check_must_eat(env, &env->philo[i], &finish_eat);
 			pthread_mutex_lock(&env->finish);
+			i++;
 		}
 	}
 	pthread_mutex_unlock(&env->finish);
