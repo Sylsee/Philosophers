@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 22:19:23 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/19 00:07:58 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/26 11:26:00 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	check_death(t_env *env, t_philo *philo)
 	pthread_mutex_lock(&philo->eating);
 	if (get_time() - philo->last_eat >= env->die)
 	{
-		pthread_mutex_unlock(&philo->eating);
 		pthread_mutex_lock(&env->finish);
 		env->is_finish = true;
 		pthread_mutex_lock(&env->print);
@@ -41,8 +40,7 @@ static void	check_death(t_env *env, t_philo *philo)
 		pthread_mutex_unlock(&env->print);
 		pthread_mutex_unlock(&env->finish);
 	}
-	else
-		pthread_mutex_unlock(&philo->eating);
+	pthread_mutex_unlock(&philo->eating);
 }
 
 static void	check_must_eat(t_env *env, t_philo *philo, int *finish_eat)
@@ -59,14 +57,10 @@ static void	check_must_eat(t_env *env, t_philo *philo, int *finish_eat)
 			printf("%lldms Each philosophers ate %d times\n",
 				get_time() - env->time_start, env->m_eat);
 			pthread_mutex_unlock(&env->print);
-			pthread_mutex_unlock(&env->finish);
 		}
-		else
-			pthread_mutex_unlock(&env->finish);
-		pthread_mutex_unlock(&philo->eating);
+		pthread_mutex_unlock(&env->finish);
 	}
-	else
-		pthread_mutex_unlock(&philo->eating);
+	pthread_mutex_unlock(&philo->eating);
 }
 
 static void	watcher(t_env *env)

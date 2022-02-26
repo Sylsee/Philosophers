@@ -6,7 +6,7 @@
 /*   By: spoliart <spoliart@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 02:10:03 by spoliart          #+#    #+#             */
-/*   Updated: 2022/02/18 23:51:23 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/26 12:04:22 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ int	main(int argc, char **argv)
 				" time_to_die time_to_eat time_to_sleep"
 				" [number_of_times_each_philosopher_must_eat]"));
 	if (parse(argc, argv, &env) != EXIT_SUCCESS)
-		return (1);
+		return (EXIT_FAILURE);
 	forks = malloc(sizeof(pthread_mutex_t) * env.nb_philo);
+	if (!forks)
+		return (internal_error("Malloc error"));
 	if (!(initialize(&env, forks)))
-		return (1);
+		return (EXIT_FAILURE);
 	if (env.nb_philo == 1)
 		one_philo(env);
 	else if (threads(&env) == EXIT_FAILURE)
