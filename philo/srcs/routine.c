@@ -6,7 +6,7 @@
 /*   By: marvin <spoliart@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 05:29:13 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/19 00:09:11 by spoliart         ###   ########.fr       */
+/*   Updated: 2022/02/26 12:10:26 by spoliart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@ void	write_action(long long time, t_philo *philo, char *s)
 		ft_putstr_fd(s, 1);
 		ft_putstr_fd("\n", 1);
 		pthread_mutex_unlock(&philo->env->print);
-		pthread_mutex_unlock(&philo->env->finish);
 	}
-	else
-		pthread_mutex_unlock(&philo->env->finish);
+	pthread_mutex_unlock(&philo->env->finish);
 }
 
 void	work(t_philo *philo)
